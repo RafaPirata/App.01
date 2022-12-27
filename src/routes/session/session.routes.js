@@ -11,7 +11,7 @@ const server = new constructor()
 
 // const passport = require('../../../utils/passport.js')
 const users  = require('../../../helpers/UsersMem');
-const Toast = require('../../../utils/Sweetalert');
+
 const logger = require('../../../logger');
 
 // routerSession.get('/', authMiddleware, sessionGet)

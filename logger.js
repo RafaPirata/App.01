@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'PROD') {
     console.log(process.env.NODE_ENV)
   logger = buildProdLogger()
 } else {
-    console.log(process.env.NODE_ENV)
+    console.log(process.env.NODE_ENV+"aca")
   logger = buildDevLogger()
 }
 module.exports = logger
