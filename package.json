@@ -1,5 +1,5 @@
 {
-  "name": "backend_piotti",
+  "name": "app.o1",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RafaPirata/Backend_Piotti.git"
+    "url": "git+https://github.com/RafaPirata/App.01.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RafaPirata/Backend_Piotti/issues"
+    "url": "https://github.com/RafaPirata/App.01/issues"
   },
-  "homepage": "https://github.com/RafaPirata/Backend_Piotti#readme",
+  "homepage": "https://github.com/RafaPirata/App.01#readme",
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "autocannon": "^7.10.0",
