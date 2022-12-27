@@ -12,8 +12,6 @@ const server = new constructor()
 // const passport = require('../../../utils/passport.js')
 const users  = require('../../../helpers/UsersMem');
 
-const logger = require('../../../logger');
-
 // routerSession.get('/', authMiddleware, sessionGet)
 // routerSession.get('/logout', sessionLogout)
 // routerSession.get('/login', sessionGet)
@@ -37,35 +35,35 @@ routerSession.post('/login', countVisits ,async (req, res) => {
         let { password } = req.body
         
         const user = await server.getUserByUsername(username) 
-        logger.info(',,,......,,.;::'+ user.username);
+        console.log(',,,......,,.;::',user.username);
 
         const validado = isValidPassword(user, password)
 
-        logger.info('pass output: '+ password + ' - validado -  '+ validado)
+        console.log('pass output: ', password, ' - validado -  ', validado)
 
         if (validado) {
             const usuario = await server.getUserByUsernameAndPass(username, user.password)
             
-            logger.info('usuario ---->>>>'+ usuario)
+             console.log('usuario ---->>>>', usuario)
             if (!usuario) {
                return res.render('register.ejs')
                 //return res.json({ error: 'Usuario no existe!!' });
             } else {
                 //const access_token = generateToken(usuario) //user
                 //res.json({ access_token })
-                logger.info('usuario loggeado: '+ username )
+                console.log('usuario loggeado: ', username )
                 
                 return res.render('index.ejs', { username } )
             }
         } else {
-            logger.error('login--------- fallido !!!');
+            console.log('login--------- fallido !!!');
             return res.render('loginfallido.ejs', { username } )
             // return res.json({Mensaje : ERRORRR})
             //res.render('register', { flag: true, username, usuario })
         }
 
     } catch (error) {
-        //logger.warn('aca');
+        //console.log('aca');
         return res.render('userFallido.ejs')
         //res.status(500).send(error)
     }

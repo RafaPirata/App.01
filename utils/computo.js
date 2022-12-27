@@ -1,5 +1,3 @@
-const logger = require("../logger")
-
 const calculo = () => {
     let obj = {}
     let max = 1000
@@ -21,7 +19,7 @@ const calculo = () => {
     
 process.on('message', msg => {
     if (msg === 'start') {
-        logger.info(`Mensaje del padre: ${msg}`)
+        console.log(`Mensaje del padre: ${msg}`)
         process.send(`${calculo()}`)
         process.exit()
     }

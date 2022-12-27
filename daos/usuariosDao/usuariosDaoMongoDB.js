@@ -1,8 +1,7 @@
 const ContainerMongoDB = require('../../contenedores/contenedorMongoDB')
 const mongoose = require('mongoose');
 const Usuarios = require('../../models/usuario')
-const { options } = require('../../options/config.js');
-const logger = require('../../logger');
+const { options } = require('../../options/config.js')
 
 
 class ServerMongoDB extends ContainerMongoDB{
@@ -29,33 +28,33 @@ class ServerMongoDB extends ContainerMongoDB{
         try {
             const newUser = new Usuarios(usuario)
             await newUser.save()
-            logger.info('User created: ' + newUser)
+            console.log('User created: ' + newUser)
         } catch (error) {
-            logger.error(error)
+            console.log(error)
         }
     }
 
     async getUser(){
         try {
             const users = await Usuarios.find()
-            logger.info(users)
+            console.log(users)
         } catch (error) {
-            logger.error(error)
+            console.log(error)
         }
     }
 
     async getUserByUsername(username){
         try {
             const user = await Usuarios.findOne( {username: `${username}`} )
-            logger.info('usuario: '+ user)
+            console.log('usuario: ', user)
             return user
         } catch (error) {
-            logger.error(error)
+            console.log(error)
         }
     }
 
     async getUserByUsernameAndPass(username, password) { 
-        logger.info('username--pass-- '+ username)
+        console.log('username--pass-- ', username)
         try {
             const user = await Usuarios.findOne( {username: `${username}`, password: `${password}` } )
             // console.log('user-::>> ', user)
@@ -65,7 +64,7 @@ class ServerMongoDB extends ContainerMongoDB{
                 return true
             }
         } catch (error) {
-            logger.error(error)
+            console.log(error)
         }
     }
 }

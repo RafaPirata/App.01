@@ -4,7 +4,6 @@ const mongoose=require('mongoose')
 const {ObjectId} = require('mongodb')
 
 const { options } = require('../options/config')
-const logger = require('../logger')
 
 class ContenedorMongoDB {
     constructor(model) {
@@ -19,7 +18,7 @@ class ContenedorMongoDB {
                 useUnifiedTopology: true,
                 dbName: 'test'
             })
-        } catch (err){logger.error();(err)}
+        } catch (err){console.log(err)}
     }
 
     async getAll(){
@@ -27,7 +26,7 @@ class ContenedorMongoDB {
             return await this.model.find();
         }
         catch (err){
-            logger.error(err)
+            console.log(err)
         }
     }
 
@@ -35,7 +34,7 @@ class ContenedorMongoDB {
         try{
             return await this.model.find({_id: id})
         }catch(err){
-            logger.error(err)
+            console.log(err)
         }
     }
 
@@ -45,7 +44,7 @@ class ContenedorMongoDB {
             await newObject.save();
             return newObject._id;
         }catch (err){
-            logger.error(err)
+            console.log(err)
         }
     }
 
@@ -53,7 +52,7 @@ class ContenedorMongoDB {
         try {
             await this.model.updateOne({_id: id},fields)
         }catch (err) {
-            logger.error(err)
+            console.log(err)
         }
     }
 
@@ -61,7 +60,7 @@ class ContenedorMongoDB {
         try {
             await this.model.deleteOne({_id: id})
         }catch (err) {
-            logger.error(err)
+            console.log(err)
         }
     }
 
@@ -70,7 +69,7 @@ class ContenedorMongoDB {
             const productAdd = {...product._doc, cantidad: product.cantidad}
             await this.model.updateOne({_id: cartId},{$push: {productos: productAdd}})
         }catch (err) {
-            logger.error(err)
+            console.log(err)
         }
     }
 
@@ -78,7 +77,7 @@ class ContenedorMongoDB {
         try{
             await this.model.updateOne({_id: cartId},{$pull: {productos: {_id: ObjectId(productId)}}})
         }catch (err) {
-            logger.error(err)
+            console.log(err)
         }
     }
 }

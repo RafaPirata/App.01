@@ -1,8 +1,7 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
-const { users } = require('../helpers/UsersMem.js');
-const logger = require('../logger.js');
+const { users } = require('../helpers/UsersMem.js')
 
 
 // console.log(users)
@@ -24,14 +23,14 @@ passport.use('login', new LocalStrategy(
     
     (username, password, done) => {
         
-        logger.info('passport login')
-        logger.info('User', users)
+        console.log('passport login')
+        console.log('User', users)
         const user = users.find(u => u.username === username )
-        logger.info(password)
-        logger.info('user', user)
+        console.log(password)
+        console.log('user', user)
         
         if (!user) {
-            logger.error('User Not Found with username ' + username);
+          console.log('User Not Found with username ' + username);
           return done(null, false, { message: 'User Not found.' });
         }
         
@@ -59,7 +58,7 @@ passport.use('signup', new LocalStrategy({
         
         
         if (user) {
-            logger.info('User already exists');
+            console.log('User already exists');
             return done(null, false, { message: 'User already exists' })
         }
         const { admin } = req.body

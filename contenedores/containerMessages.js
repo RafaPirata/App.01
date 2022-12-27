@@ -1,9 +1,8 @@
 const fs = require("fs")
-const logger = require("../logger")
 
 module.exports = class ContainerMsg {
     constructor(configConnection) {
-        logger.info('config: '+ configConnection)
+        console.log('config: ', configConnection)
         this.myFile = configConnection
     }
 
@@ -13,7 +12,7 @@ module.exports = class ContainerMsg {
           const contentParsed = JSON.parse(content)
           return contentParsed
         } catch (error) {
-          logger.error("Error leer archivo: " + error)
+          console.error("Error leer archivo: " + error)
         }
       }
 
@@ -23,10 +22,10 @@ module.exports = class ContainerMsg {
             if (fileContent.length !== 0) {
             return fileContent
             } else {
-                logger.info("Lo sentimos, la lista de mensajes está vacía!!!")
+            console.log("Lo sentimos, la lista de mensajes está vacía!!!")
             }
         } catch (error) {
-            logger.error(`Error getting all messages ${error}`)
+            console.error(`Error getting all messages ${error}`)
         }
     }
    
@@ -43,7 +42,7 @@ module.exports = class ContainerMsg {
                 return fileContent
                 
             } catch (error) {
-                logger.error(error)
+                console.log(error)
                 return { Error: 'Upps! Hubo un error y no pudimos guardar el Mensaje.' }
             }
         } else {

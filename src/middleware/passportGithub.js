@@ -2,10 +2,9 @@
 const passport = require('passport');
 const { users } = require('../../helpers/UsersMem');
 const bCrypt = require('bcrypt');
-const logger = require('../../logger');
 
 const GithubStrategy = require('passport-github2').Strategy;
-//console.log(users)
+console.log(users)
 
 function createHash(password) {
     return bCrypt.hashSync(
@@ -26,16 +25,16 @@ const initPassport = () => {
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         callbackURL: "http://localhost:8080/api/session/githubcallback"
     },(accessToken, refreshToken, profile, done) => {
-        logger.info(profile)
-        logger.info(accessToken)
-            logger.info('login'+ users)
+        console.log(profile)
+        console.log(accessToken)
+            console.log('login', users)
             // if (err)
             //   return done(err);
             let username = profile.username
             let user = users.find( user => user.username === username) 
     
             if (!user) {
-                logger.warn('User Not Found with username ' + username);
+            console.log('User Not Found with username ' + username);
             return done(null, false);
             }        
     
@@ -56,7 +55,7 @@ const initPassport = () => {
     })
 
     passport.deserializeUser((id, done) => { // toma el id que esta en las sessiones 
-        logger.info(users)
+        console.log(users)
         let user = users.find(user => user.id === id)
         done(null, user)
     })

@@ -3,8 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 const bCrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('../../models/usuario');
-const { options } = require('../../options/config');
-const logger = require('../../logger');
+const { options } = require('../../options/config')
 
 
 
@@ -27,9 +26,9 @@ const initPassportMongodb = () => {
             useUnifiedTopology: true,
             dbName: 'test'
         })
-        logger.info('rafael:conecatdo a Mongodb');
+        console.log('rafael:conecatdo a Mongodb');
     } catch (err) {
-        logger.error(err)
+        console.log(err)
     }
 
     // passport.use('login', new LocalStrategy(

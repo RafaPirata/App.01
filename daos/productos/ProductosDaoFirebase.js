@@ -1,5 +1,4 @@
-const ContainerFirebase = require('../../contenedores/containerFirebase');
-const logger = require('../../logger');
+const ContainerFirebase = require('../../contenedores/containerFirebase')
 const { options } = require('../../options/config.js')
 
 
@@ -25,9 +24,9 @@ class ProductosDaoFirebase extends ContainerFirebase {
         code: addProduct.code,
         stock: addProduct.stock
       });
-      logger.info("Producto creado: "+ addProduct)
+      console.log("Producto creado: ", addProduct)
     } catch (error) {
-      logger.error("Error FB createProduct: "+ error);
+      console.error("Error FB createProduct: ", error);
     }
   }
 
@@ -39,10 +38,10 @@ class ProductosDaoFirebase extends ContainerFirebase {
         id: res.id,
         ...res.data(),
       }));
-      logger.info("Productos: "+ response);
+	  console.log("Productos: ", response);
 	  return response
     } catch (error) {
-      logger.error("Error FB getProducts: "+ error);
+      console.error("Error FB getProducts: ", error);
     }
   }
 
@@ -53,10 +52,10 @@ class ProductosDaoFirebase extends ContainerFirebase {
       	const queryProducto = query.doc(`${id}`)
       	const item = await queryProducto.get()
       	const respuesta = item.data()
-      	logger.info("Producto encontrado: "+ respuesta)
+      	console.log("Producto encontrado: ", respuesta)
 		return respuesta
     } catch (error) {
-      logger.error("Error FB getOneProduct: "+ error);
+      console.error("Error FB getOneProduct: ", error);
     }
   }
 
@@ -74,9 +73,9 @@ class ProductosDaoFirebase extends ContainerFirebase {
         code: dataBody.code,
         stock: dataBody.stock
 	  } ); //{ edad: 50 }
-    logger.info("El Producto ha sido actualizado"+ item);
+      console.log("El Producto ha sido actualizado", item);
     } catch (error) {
-      logger.error("Error FB updateProduct: "+ error);
+      console.error("Error FB updateProduct: ", error);
     }
   }
 
@@ -86,10 +85,10 @@ class ProductosDaoFirebase extends ContainerFirebase {
       //let id = '2'
       const queryProductos = query.doc(`${id}`);
       const item = await queryProductos.delete();
-      logger.info("El Producto ha sido eliminado"+ item);
+      console.log("El Producto ha sido eliminado", item);
 		return item
     } catch (error) {
-      logger.error("Error FB DeleteProduct: "+ error);
+      console.error("Error FB DeleteProduct: ", error);
     }
   }
     

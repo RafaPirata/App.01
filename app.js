@@ -1,103 +1,94 @@
+const express  = require('express')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const logger = require('morgan')
+require('dotenv').config()
+const { options } = require('./options/config.js')
+const cors = require('cors')
 
-const app = require('./server') //express()
+const { infoRouter } = require('./rutas/info.routes')
 
-const logger = require('./logger');
-//const PORT = process.argv[2] || 8000
-
-const cluster = require('cluster')
-
-
-const numCPUs = require('os').cpus().length
-
-logger.info(`Cantidad de nucleos: '${numCPUs}`);
-
-// if (cluster.isPrimary) {
-//     console.log(`Mater ${process.pid}`);
-//     for (let i = 0; i < numCPUs; i++) {
-//         cluster.fork()        
-//     }
-//     cluster.on('exit', (worker, coder, signal )=>{
-//         console.log(`Worker ${process.pid} died`);
-//     })    
-// } else {
-    // try {
-    //     app.listen(PORT)
-    //         console.log(`SERVER listen on port ${PORT}`)
-    //         console.log(`Worker ${process.pid} started`);
-        
-    // } catch (error) {
-    //     console.log(error);
-    // }
-    
-// }
-
-// const PORT = process.env.PORT || 3000
+const {initPassport} = require("./src/middleware/passportGithub")
+const {initPassportMongodb} = require("./src/middleware/passportMongodb")
 
 
-const initSocket = require('./utils/initSocket')
+const cookiesRoutes = require('./src/routes/cookies/cookies.routes')
+const productosRouter = require('./rutas/productos.js')
 
-const { Server: HttpServer } = require('http')
-const { Server: IOServer } = require('socket.io');
-const yargs = require('yargs');
 
-const httpServer = new HttpServer(app)
-const io = new IOServer(httpServer)
-//------------------------------------------------------------------------
-initSocket(io)
-//--------------------------------------------------
+//--------------------------------------------------------------------------
+const MongoStore = require('connect-mongo')
+const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true }
+//--------------------------------Local-------------------------
 
-const args = yargs.default({
-    //p: 8080,
-    //m: 'FORK'
-}).argv
-const PORT = process.argv[2] || 8000
-const MODE = process.argv[3] || 'FORK'
+//const sessionRoutes = require('./src/routes/session/session.routes')
+const passport = require('./utils/passport.js')   
 
-// ---------------------------------------------------------------------------------
-//FUNCION PARA EJECUTAR SERVIDOR
+//---------------------------Github---------------------------
 
-function runServer(){
-    try{
-        httpServer.listen(PORT)
-        logger.info(`SERVER listen on port ${PORT}`)
-        // console.log(`SERVER listen on port ${PORT}`)
-        // console.log(`Worker ${process.pid} started`)
-        logger.info(`Worker en FORK ${process.pid} started`)
-    } catch (err){
-        logger.error(err)
+const sessionRoutes = require('./src/routes/session/session.routes')
+//const passportGithub = require('./src/middleware/passportGithub') 
+//---------------------------MONGODB---------------------------
+//const passport = require('./src/middleware/passportMongodb')
+
+
+
+
+const app = express()
+
+// app.use(session({
+//     secret: 'secreto',
+//     cookie: {
+//         httpOnly: false,
+//         secure: false,
+//         maxAge: 1000 * 60 * 60 * 24
+//     },
+//     rolling: true,
+//     resave: true,
+//     saveUninitialized: false
+// }))
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: options.mongoRemote.MONGO_URL_CONNECT,
+        mongoOptions: advancedOptions
+    }),
+    secret: 'camel2',
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    cookie: {
+        maxAge: 60000
     }
-}
+}))
 
+initPassportMongodb()
 
-// ---------------------------------------------------------------------------------
-//SELECCION DE MODO (FORK O CLUSTER)
+app.use(passport.initialize());
+app.use(passport.session());
 
-if(MODE === 'CLUSTER'){
-    if(cluster.isPrimary){
-        logger.info(`Master ${process.pid}`)
-        for(let i=0; i < numCPUs; i++){
-            cluster.fork()
-        }
-        cluster.on('exit', (worker, coder, sinal)=>{
-            logger.info(`Worker en CLUSTER${worker.process.pid} died`)
-        })
-    }else{
-        runServer()
-    }
-}else{
-    runServer()
-}
+//initPassport()
 
 
 
+app.use(cookieParser(process.env.SECRET_KEY_COOKIE))
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(cors())
+app.use(logger('dev'))
 
+app.use(express.static('public'))
+app.use(express.static('src/images'))
+
+app.set('view engine', 'ejs')
+app.set('views', __dirname + '/public/views/pages') 
+
+app.use('/api/productos-test', productosRouter)
+app.use('/', productosRouter)
+app.use('/cookies',cookiesRoutes)
+app.use('/api/session', sessionRoutes)
+app.use('/data', infoRouter)
+
+ 
 
 module.exports = app
-
-
-//pm2 start app.js --name="Serverx" --watch -- PORT
-//pm2 start app.js --name="Server1" --watch -- 8081
-//pm2 start app.js --name="Server2" --watch -- 8082
-//pm2 start app.js --name="Server3" --watch -i max -- 8083
-
-// artillery quick -c 50 -n 50 "http://localhost:8000?max=100000" > result_fork.txt  para simular 50 consultas

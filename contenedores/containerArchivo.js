@@ -1,5 +1,4 @@
 const fs = require("fs")
-const logger = require("../logger")
 
 module.exports = class ContainerArchivo {
   constructor(filePath) {
@@ -13,7 +12,7 @@ module.exports = class ContainerArchivo {
       const contentParsed = JSON.parse(content)
       return contentParsed
     } catch (error) {
-      logger.error("Error al leer archivo: " + error)
+      console.error("Error leer archivo: " + error)
     }
   }
 }

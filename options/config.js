@@ -25,7 +25,6 @@ const options = {
   client: 'mongodb',
   MONGO_URL_CONNECT: 'mongodb+srv://rafaelpiotti:cali6alma@cluster0.k9fkvuk.mongodb.net/?retryWrites=true&w=majority'
  },
- 
 
 }
 

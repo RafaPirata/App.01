@@ -1,6 +1,5 @@
 const ContainerArchivo = require("../../contenedores/containerArchivo");
-const fs = require("fs");
-const logger = require("../../logger");
+const fs = require("fs")
 
 class ProductosDaoArchivo extends ContainerArchivo {
   constructor() {
@@ -13,7 +12,7 @@ class ProductosDaoArchivo extends ContainerArchivo {
       // console.table(fileContent)
       return fileContent;
     } else {
-      logger.info("Lo sentimos, la lista de Productos está vacía!!!");
+      console.log("Lo sentimos, la lista de Productos está vacía!!!");
     }
   }
 
@@ -22,7 +21,7 @@ class ProductosDaoArchivo extends ContainerArchivo {
     const product = fileContent.filter((item) => item.id === id);
 
     if (product.length > 0) {
-      logger.info("Producto encontrado: " + JSON.stringify(product, true, 2));
+      console.log("Producto encontrado: " + JSON.stringify(product, true, 2));
       return product;
     } else {
       //console.log("Lo sentimos, el Id del producto ingresado no existe en nuestra Base de Datos!!");
@@ -38,13 +37,13 @@ class ProductosDaoArchivo extends ContainerArchivo {
           this.filePath,
           JSON.stringify([...fileContent, { ...obj, id: fileContent[fileContent.length - 1].id + 1} ], null, 2)
         )
-        logger.info(
-          "Producto guardado con exito en Base de Datos! con productos anteriores "+
+        console.log(
+          "Producto guardado con exito en Base de Datos! con productos anteriores ",
           fileContent
         )
         return fileContent;
       } catch (error) {
-        logger.error("Error al escribir en archivo-----aca es el error!! \n" + error);
+        console.log("Error al escribir en archivo-----aca es el error!! \n" + error);
       }
     } else {
       try {
@@ -53,9 +52,9 @@ class ProductosDaoArchivo extends ContainerArchivo {
           JSON.stringify([{ ...obj, id: 1 }], null, 2),
           "utf-8"
         )
-        logger.info("Producto guardado con éxito en Base de Datos vacia!");
+        console.log("Producto guardado con éxito en Base de Datos vacia!");
       } catch (error) {
-        logger.warn("Error al escribir en archivo--vacio!! \n" + error);
+        console.log("Error al escribir en archivo--vacio!! \n" + error);
       }
     }
   }
@@ -72,7 +71,7 @@ class ProductosDaoArchivo extends ContainerArchivo {
           this.filePath,
           JSON.stringify(nonDeletedProducts, null, 2)
         );
-        logger.info(
+        console.log(
           `Producto ${JSON.stringify(
             productToBeDeleted,
             null,
@@ -80,10 +79,10 @@ class ProductosDaoArchivo extends ContainerArchivo {
           )} \nEliminado con éxito de la Base de Datos!!\n`
         );
       } catch (error) {
-        logger.error("Error al escribir en archivo!! \n" + error);
+        console.log("Error al escribir en archivo!! \n" + error);
       }
     } else {
-      logger.info(
+      console.log(
         "Lo sentimos, el Id del producto ingresado NO existe en nuestra Base de Datos"
       );
     }
@@ -99,14 +98,14 @@ class ProductosDaoArchivo extends ContainerArchivo {
           JSON.stringify([], null, 2),
           "utf-8"
         );
-        logger.info(
+        console.log(
           "Todos los productos han sido Eliminados de la Base de Datos!!!"
         );
       } catch (error) {
-        logger.error("Error al escribir en archivo!! \n" + error);
+        console.log("Error al escribir en archivo!! \n" + error);
       }
     } else {
-      logger.info("La Base de Datos está vacía!!!");
+      console.log("La Base de Datos está vacía!!!");
     }
   }
   //----------------------------------------------------------------

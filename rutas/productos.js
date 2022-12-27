@@ -20,7 +20,7 @@ router.post('/popular', async (req, res, next) => {
 
 router.get('/productos', async (req, res, next) => {
     try {
-        res.render('historial.ejs', await containerProduct.getAllProducts())
+        res.render('historial.ejs', await apiProductos.getAllProducts())
         
     } catch (err) {
         next(err)
@@ -28,7 +28,7 @@ router.get('/productos', async (req, res, next) => {
  })
  router.get('/home', async (req, res, next) => {
     try {
-        res.render('home.ejs', await containerProduct.getAllProducts())
+        res.render('home.ejs', await apiProductos.getAllProducts())
         
     } catch (err) {
         next(err)
@@ -37,7 +37,7 @@ router.get('/productos', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        res.render('home.ejs', await containerProduct.getAllProducts())
+        res.render('home.ejs', await apiProductos.getAllProducts())
     } catch (err) {
         next(err)
     }
@@ -47,7 +47,7 @@ router.get('/', async (req, res, next) => {
  
  router.get('/:id', async (req, res, next) => {
     try {
-        res.json(await containerProduct.getById(req.params.id))
+        res.json(await apiProductos.getById(req.params.id))
     } catch (err) {
         next(err)
     }
@@ -73,7 +73,7 @@ router.get('/', async (req, res, next) => {
 
  router.delete('/:id', async (req, res, next) => {
     try {
-        res.json(await containerProduct.deleteProduct(req.params.id))
+        res.json(await apiProductos.deleteProduct(req.params.id))
     } catch (err) {
         next(err)
     }

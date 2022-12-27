@@ -1,5 +1,4 @@
 const ContainerMysql = require('../../contenedores/containerMysql')
-const logger = require('../../logger')
 const { options } = require('../../options/config.js')
 const knex = require('knex')(options.mysql)
 
@@ -23,7 +22,7 @@ class ProductosDaoMysql extends ContainerMysql {
         const id = 0
         try {
             const result = await knex(this.table).insert( {id, ...addProduct } )
-            logger.info('Producto agregado: '+ { id, ...addProduct } )
+            console.log('Producto agregado: ', { id, ...addProduct } )
             return result
             
         } catch (error) {

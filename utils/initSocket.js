@@ -14,7 +14,6 @@ const containerMsg = new ContainerMessages(options.filePath.pathMsg)
 
 // conectado producto con mongodb
 const ContainerProducts = require('../daos/productos/ProductosDaoMongoDB')
-const logger = require('../logger.js')
 const containerProduct = new ContainerProducts(options.mongoRemote.MONGO_URL_CONNECT) 
 
 
@@ -33,7 +32,7 @@ const  initSocket = (io) => {
 // Configuracion socket ------------
 io.on('connection', async (socket) => {
     // "connection" se ejecuta la primera vez que se abre una nueva conexión
-    logger.info('Usuario en soket conectado - ID User: ' + socket.id )
+    console.log('Usuario en soket conectado - ID User: ' + socket.id )
     
     // Messages --------------------------
     socket.emit('mensajesAll', await listarMensajesNormalizados())//containerMsg.getAllMsg() ) 
@@ -53,14 +52,14 @@ io.on('connection', async (socket) => {
         });  
 
     socket.on('newProducto', async (producto) => {
-        logger.info('Data servidor: ' + JSON.stringify(producto))
+        console.log('Data servidor: ' + JSON.stringify(producto))
 
         const arrayProducts = await containerProduct.createProduct(producto)
         io.sockets.emit('productsAll', arrayProducts)
     })
 
     socket.on('disconnect', () => {
-        logger.info(`User desconectado`)
+        console.log(`User desconectado`)
     })
 })
 

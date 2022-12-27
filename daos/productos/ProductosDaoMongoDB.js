@@ -2,7 +2,6 @@ const ContainerMongoDB = require('../../contenedores/contenedorMongoDB')
 const { options } = require('../../options/config.js')
 
 const Productos = require('../../models/productos.model')
-const logger = require('../../logger')
 
 class ProductosDaoMongoDB extends ContainerMongoDB {
     constructor() {
@@ -14,9 +13,9 @@ class ProductosDaoMongoDB extends ContainerMongoDB {
         try {
             const newProduct = new Productos(product)
             await newProduct.save()
-            logger.info('Product created: ', newProduct)
+            console.log('Product created: ', newProduct)
         } catch (error) {
-            logger.error("Error MongoDB createProduct: "+ error)
+            console.log("Error MongoDB createProduct: ",error)
         }
     }
 
@@ -26,17 +25,17 @@ class ProductosDaoMongoDB extends ContainerMongoDB {
             // console.log('Productos encontrados: ',products)
             return products
         } catch (error) {
-            logger.error("Error MongoDB getProducts: " + error)
+            console.log("Error MongoDB getProducts: ",error)
         }
     }
 
     async getById(id) {
         try {
             const product = await Productos.findById(`${id}`)
-            logger.info('Producto encontrado: ' + product)
+            console.log('Producto encontrado: ',product)
             return product
         } catch (error) {
-            logger.error("Error MongoDB getOneProducts: " + error)
+            console.log("Error MongoDB getOneProducts: ",error)
         }
     }
 
@@ -47,46 +46,20 @@ class ProductosDaoMongoDB extends ContainerMongoDB {
                  timestamp: timestamp
             }
             const product = await Productos.updateOne({ _id: id}, newValues)
-            logger.info('Producto actualizado '+ product)
+            console.log('Producto actualizado ', product)
             return product
         } catch (error) {
-            logger.error("Error MongoDB updateProduct: " + error)
+            console.log("Error MongoDB updateProduct: ",error)
         }
     }
-    async deleteProduct(id) {
-        const fileContent = await Productos.find();
-    
-        const nonDeletedProducts = fileContent.filter((item) => item.id !== id);
-        const productToBeDeleted = fileContent.filter((item) => item.id === id);
-    
-        if (productToBeDeleted.length > 0) {
-          try {
-            await Productos.deleteOne({ "_id": `${id}` }) 
-            // logger.info(
-            //   `Producto ${JSON.stringify(
-            //     productToBeDeleted,
-            //     null,
-            //     2
-            //   )} \nEliminado con éxito de la Base de Datos!!\n`
-            // );
-            logger.info(`Producto con el id: ${id} eliminado con exito`)
-          } catch (error) {
-            logger.error("Error al escribir en archivo!! \n" + error);
-          }
-        } else {
-          logger.info(
-            "Lo sentimos, el Id del producto ingresado NO existe en nuestra Base de Datos"
-          );
-        }
-      }
 
     async emptyCart(id){
         try {
             const productDeleted = await Productos.deleteOne({ "_id": `${id}` })  //{name: 'Peter'}
-            logger.info('Producto eliminado: ' + JSON.stringify(productDeleted, null, 2))
+            console.log('Producto eliminado: ' + JSON.stringify(productDeleted, null, 2))
             return productDeleted
         } catch (error) {
-            logger.error("Error MongoDB deleteProduct: " + error)
+            console.log("Error MongoDB deleteProduct: ",error)
         }
     }
 

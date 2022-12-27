@@ -1,9 +1,7 @@
-const logger = require("../../../logger")
-
 const sessionGet = async (req, res) => {
     try {
         req.session.visitas = req.session.visitas ? req.session.visitas + 1 : 1
-        logger.info('user: '+ req.session.user)
+        console.log('user: ', req.session.user)
         res.render('index.ejs', { username: req.session.user, visitas: req.session.visitas })
      } catch (error) {
         return res.status(500).json({
@@ -14,7 +12,7 @@ const sessionGet = async (req, res) => {
 }
 
 const sessionLogout = (req, res) => {
-    logger.info('req.session: '+ req.session.user)
+    console.log('req.session: ', req.session.user)
         req.session.destroy(err =>{
             if(err) return res.send(err)
              res.render('login.ejs')

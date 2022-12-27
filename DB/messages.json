@@ -128,31 +128,5 @@
     "text": "Hola probando",
     "fyh": "24/11/2022, 19:51:22",
     "id": 20
-  },
-  {
-    "author": {
-      "email": "rrcamel@hotmail.com",
-      "nombre": "Rafael Ricardo",
-      "apellido": "Piotti",
-      "edad": "23",
-      "alias": "camel",
-      "avatar": ""
-    },
-    "text": "logger listos",
-    "fyh": "16/12/2022, 16:58:48",
-    "id": 21
-  },
-  {
-    "author": {
-      "email": "rrcamel@hotmail.com",
-      "nombre": "Rafael Ricardo",
-      "apellido": "Piotti",
-      "edad": "23",
-      "alias": "camel",
-      "avatar": ""
-    },
-    "text": "estamos?",
-    "fyh": "16/12/2022, 16:59:43",
-    "id": 22
   }
 ]
